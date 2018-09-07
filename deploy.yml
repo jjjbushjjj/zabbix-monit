@@ -1,0 +1,34 @@
+---
+
+- hosts: all
+
+  tasks:
+    - name: Ensure all scrips are in place
+      copy:
+        src: "{{ item }}"
+        dest: "/usr/local/bin/{{ item }}"
+        owner: root
+        group: root
+        mode: 0755
+      with_items:
+        - "lld_monit_process.py"
+        - "get_monit_process_metrics.py"
+
+    - name: Ensure all zabbix agent configs are in place
+      copy:
+        src: "userparameter_monit.conf"
+        dest: "/etc/zabbix/zabbix_agentd.d/userparameter_monit.conf"
+        owner: root
+        group: root
+        mode: 0644
+      notify: restart-zabbix-agent
+
+  handlers:
+    - name: restart-zabbix-agent
+      service: >
+        name=zabbix-agent
+        enabled=yes
+        state=restarted
+      
+
+

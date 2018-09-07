@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>3.4</version>
-    <date>2018-09-06T14:38:49Z</date>
+    <date>2018-09-07T06:31:43Z</date>
     <groups>
         <group>
             <name>Templates</name>
@@ -9,19 +9,15 @@
     </groups>
     <templates>
         <template>
-            <template>monit-stats</template>
-            <name>monit-stats</name>
+            <template>Template monit-stats</template>
+            <name>Template monit-stats</name>
             <description/>
             <groups>
                 <group>
                     <name>Templates</name>
                 </group>
             </groups>
-            <applications>
-                <application>
-                    <name>Monit</name>
-                </application>
-            </applications>
+            <applications/>
             <items/>
             <discovery_rules>
                 <discovery_rule>
@@ -86,11 +82,7 @@
                             <port/>
                             <description>Status of monit process</description>
                             <inventory_link>0</inventory_link>
-                            <applications>
-                                <application>
-                                    <name>Monit</name>
-                                </application>
-                            </applications>
+                            <applications/>
                             <valuemap/>
                             <logtimefmt/>
                             <preprocessing/>
@@ -103,7 +95,24 @@
                             <master_item_prototype/>
                         </item_prototype>
                     </item_prototypes>
-                    <trigger_prototypes/>
+                    <trigger_prototypes>
+                        <trigger_prototype>
+                            <expression>{Template monit-stats:monit.process[{$MONIT_URL},{$MONIT_USER},{$MONIT_PASS},{#MONIT_PROCESS},Status].str(Running)}&lt;&gt;1</expression>
+                            <recovery_mode>0</recovery_mode>
+                            <recovery_expression/>
+                            <name>monit process {#MONIT_PROCESS} not in Running state</name>
+                            <correlation_mode>0</correlation_mode>
+                            <correlation_tag/>
+                            <url/>
+                            <status>0</status>
+                            <priority>4</priority>
+                            <description>Alarm if monit process state not equal Running</description>
+                            <type>0</type>
+                            <manual_close>0</manual_close>
+                            <dependencies/>
+                            <tags/>
+                        </trigger_prototype>
+                    </trigger_prototypes>
                     <graph_prototypes/>
                     <host_prototypes/>
                     <jmx_endpoint/>
